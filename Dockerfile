@@ -11,11 +11,8 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci
 
-# -----------------------------
 # Build Arguments
-# -----------------------------
-# Production এ Ingress এর মাধ্যমে Backend এ যাবে
-ARG VITE_API_URL=/api/v1
+ARG VITE_API_URL=/api
 ARG VITE_APP_NAME="User Management System"
 ARG VITE_APP_VERSION=1.0.0
 
@@ -23,21 +20,19 @@ ENV VITE_API_URL=${VITE_API_URL}
 ENV VITE_APP_NAME=${VITE_APP_NAME}
 ENV VITE_APP_VERSION=${VITE_APP_VERSION}
 
-# Copy source code
+# Copy source
 COPY . .
 
-# Build Vite application
+# Build
 RUN npm run build
 
 # -----------------------------------------------
-# Stage 2: Production (Nginx)
+# Stage 2: Production
 # -----------------------------------------------
 FROM nginx:1.27-alpine
 
-# Copy build output
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# SPA support (React Router)
 RUN printf 'server {\n\
     listen 80;\n\
     server_name _;\n\
