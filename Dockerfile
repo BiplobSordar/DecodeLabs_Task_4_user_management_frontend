@@ -15,7 +15,7 @@ RUN npm ci
 # Build Arguments
 # -----------------------------
 # Production এ Ingress এর মাধ্যমে Backend এ যাবে
-ARG VITE_API_URL=/api
+ARG VITE_API_URL=/api/v1
 ARG VITE_APP_NAME="User Management System"
 ARG VITE_APP_VERSION=1.0.0
 
